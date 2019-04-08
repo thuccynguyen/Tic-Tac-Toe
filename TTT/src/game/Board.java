@@ -7,11 +7,13 @@ import java.util.Scanner;
 		public static char[][] board = new char[3][3];
 		public static char currentMarker;
 		boolean isFree = true;
+		public int winner;
 		//constructor for Board object
 		public Board() {
 			currentMarker = 'X';
 			initBoard();
 			isFree = true;
+			winner = -1;
 		}
 		
 		//initializes game board with empty spaces
@@ -53,17 +55,28 @@ import java.util.Scanner;
 			COLS = scanCoor.nextInt()-1;
 			
 			
-			if (isFree(ROWS,COLS)) {
+			
 			board[ROWS][COLS] = currentMarker;
 			printBoard();
+			
+			if (checkWinner() == -1) {
 			changePlayer();
-			}
-			
-			else {
-				notValid();
-			}
-			
 			updateBoard();
+			}
+			
+		}
+		
+		public void updateBoard(int rows, int cols) {
+			ROWS = rows-1;
+			COLS = cols-1;
+			
+			
+			board[ROWS][COLS] = currentMarker;
+			
+			changePlayer();
+			
+			
+			
 		}
 		
 		// changes player marker between x's and o's
@@ -76,6 +89,7 @@ import java.util.Scanner;
 			}
 		}
 		
+		// possible infinite loop somewhere?
 		public boolean isFree(int input,int output) {
 			if (board[input][output] != ' ') {
 				isFree = false;
@@ -83,14 +97,118 @@ import java.util.Scanner;
 			return isFree;
 		}
 		
-		public void notValid() { // figure out why method keeps looping
-				printBoard();
-				System.out.print("Invalid move. Try again.");
-				System.out.println();
-				return;
+		
+		
+		public int checkWinner() {
+			for (int box = 0; box < 8; box++) {
+				String line = null;
+				switch (box) {
+				case 0: 
+					line = String.valueOf(board[1][1]) + 
+					String.valueOf(board[1][2]) +
+					String.valueOf(board[1][0]);
+					break;
+					
+				case 1: 
+					line = String.valueOf(board[2][1]) + 
+					String.valueOf(board[2][2]) +
+					String.valueOf(board[2][0]);
+					break;
+					
+				case 2: 
+					line = String.valueOf(board[0][1]) + 
+					String.valueOf(board[0][2]) +
+					String.valueOf(board[0][0]);
+					break;
+					
+				case 3: 
+					line = String.valueOf(board[1][1]) + 
+					String.valueOf(board[2][1]) +
+					String.valueOf(board[0][1]);
+					break;
+				
+				case 4:
+					line = String.valueOf(board[1][2]) + 
+					String.valueOf(board[2][2]) +
+					String.valueOf(board[0][2]);
+					break;
+					
+				case 5: 
+					line = String.valueOf(board[1][0]) + 
+					String.valueOf(board[2][0]) +
+					String.valueOf(board[0][0]);
+					break;
+					
+				case 6:
+					line = String.valueOf(board[1][1]) + 
+					String.valueOf(board[2][2]) +
+					String.valueOf(board[0][0]);
+					break;
+					
+				case 7:
+					line = String.valueOf(board[1][0]) + 
+					String.valueOf(board[2][2]) +
+					String.valueOf(board[0][1]);
+					break;
+				}
+				
+				if (line.equals("XXX")) {
+					winner = 1;
+					
+				}
+				
+				if (line.equals("OOO")) {
+					winner = 0;
+					
+				}
+				
 			}
+			
+			return winner;
 		}
 		
+		public void checkDraw() {
+			boolean freeSpace = false;
+			for (int i  = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) {
+					if (board[i][j] == ' ') {
+						freeSpace = true;
+					}
+				}
+			}
+			
+			if (!freeSpace && winner==-1) {
+				
+				System.out.print("The game is a draw.");
+		
+			}
+		}	
+		
+		public char markerValue(int rows, int cols) {
+			
+			char markerValue = board[rows][cols];
+			return markerValue;
+		}
+		
+		public boolean isEmpty() {
+			
+			boolean isEmpty = true;
+			
+			for (int i  = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) {
+					if (board[i][j] != ' ') {
+						isEmpty = false;
+					}
+					
+				}
+			}
+			
+			return isEmpty;
+		}
+		
+	}
+		
+	
 	
 
 

@@ -7,8 +7,8 @@ import game.Mechanics;
 
 public class TTTRun {
 	static Mechanics game = new Mechanics();
-	static boolean win1 = game.xWins;
-	static boolean win2 = game.oWins;
+	
+	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -29,28 +29,30 @@ public class TTTRun {
 			game.jwizz.printBoard();
 			while (!game.gameOver) {
 				game.jwizz.updateBoard();
+				game.jwizz.checkWinner();
+				if (game.jwizz.winner == 1) {
+					System.out.println("Congratulations! Player X has won!");
+				}
+				
+				if (game.jwizz.winner == 0) {
+					System.out.println("Congratulations! Player O has won!");
+				}
+				
+			}
+			
+			if (game.gameOver) {
+				game.reset();
+				System.out.print("Press '3' to play again!");
+				int input = scan.nextInt();
+				
+				if (input == 3) {
+					game.welcomeMessage();
+				}
+				
 			}
 			
 		}
 		
-		if (win1) {
-			System.out.println("Congratulations! Player X has won!");
-		}
-		
-		if (win2) {
-			System.out.println("Congratulations! Player O has won!");
-		}
-	
-		if (game.gameOver) {
-			game.reset();
-			System.out.print("Press '3' to play again!");
-			int input = scan.nextInt();
-			
-			if (input == 3) {
-				game.welcomeMessage();
-			}
-			
-		}
 		
 		
 				

@@ -3,13 +3,9 @@ import game.Board;
 
 public class Mechanics {
 	
-	public boolean xWins;
-	public boolean oWins;
-	private boolean freeRow = false;
-	private boolean freeCol;
+	
 	public Board jwizz = new Board();
 	public boolean gameOver;
-	
 	public static char currentMarker;
 	
 	// constructor which calls reset method
@@ -19,20 +15,11 @@ public class Mechanics {
 	
 	// resets all game settings
 	public void reset() {
-		xWins = false;
-		oWins = false;
+		jwizz.winner = -1;
 		jwizz.initBoard();
 		
 	}
 	
-	
-	public boolean checkColForWin() {
-		return false;
-	}
-	
-	public boolean checkRowForWin() {
-		return false;
-	}
 	
 	public boolean isGameOver() {
 		return gameOver;
